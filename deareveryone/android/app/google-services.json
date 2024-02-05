@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766945353082",
+    "project_id": "dear-everyone",
+    "storage_bucket": "dear-everyone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766945353082:android:0b8b5811dcba6ae99acac3",
+        "android_client_info": {
+          "package_name": "com.example.deareveryone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ6OFbEKwF4sFtPNxssjdJBdiWtc5Ui9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
