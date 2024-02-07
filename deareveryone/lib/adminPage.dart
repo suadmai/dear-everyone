@@ -8,8 +8,6 @@ import 'main.dart';
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
 
-//this page is to create new letters and view if they have been read
-
   @override
   _AdminPageState createState() => _AdminPageState();
 }

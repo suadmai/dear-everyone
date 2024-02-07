@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:everyone/adminPage.dart';
+import 'package:everyone/letterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
@@ -18,7 +19,6 @@ class Letter{
   String? recipient;
   String? message;
   bool? isRead;
-  String? response;
 
   Letter({this.code, this.recipient, this.message, this.isRead});//response is optional
 }
@@ -86,8 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
     print('Finding letter');
     for (var letter in letters){
       if (letter.code == code){
-        print('Letter found!');
         currentLetter = letter;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LetterPage(letter: currentLetter),
+          ),
+        );
       }
       print('Letter not found');
     }
@@ -106,11 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
         isRead: letterData['read'],
       );
       letters.add(letter);
-      print(letters[letters.length-1]);
-
     }
 
-    // Now, 'letters' list contains Letter objects fetched from Firestore
     print('Letters: $letters');
   } catch (e) {
     print('Error fetching letters: $e');
@@ -137,77 +139,77 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     else{
       findLetter(code);
-      if(currentLetter.code == code){
-        showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: Text('To ${currentLetter.recipient}'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                AnimatedTextKit(
-                  isRepeatingAnimation: false,
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      currentLetter.message!,
-                      textAlign: TextAlign.left,
-                      speed: const Duration(milliseconds: 30),
-                      curve: Curves.easeInOutSine,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                TextField(
-                  onChanged: (value) => response = value,
-                  minLines: 1,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    focusColor: Color(0xFF8ddce3),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      gapPadding: 1,
-                    ),
-                    hintText: 'Type your response here',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  ),
-                ),
-                const SizedBox(height: 8), // Add spacing between response field and buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF3C3C3C),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Close', style: TextStyle(color: Color(0xFF8ddce3))),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF3C3C3C),
-                    ),
-                    onPressed: () {
-                      sendResponse(response!);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Send Response', style: TextStyle(color: Color(0xFF8ddce3))),
-                  ),
-                ],)
-              ],
-            ),
-          ),
-          actions: [
-          ],
-        );
+      // if(currentLetter.code == code){
+      //   showDialog(
+      //   context: context,
+      //   builder: (BuildContext context){
+      //     return AlertDialog(
+      //     backgroundColor: Colors.white,
+      //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      //     title: Text('To ${currentLetter.recipient}'),
+      //     content: SingleChildScrollView(
+      //       child: Column(
+      //         children: [
+      //           AnimatedTextKit(
+      //             isRepeatingAnimation: false,
+      //             animatedTexts: [
+      //               TyperAnimatedText(
+      //                 currentLetter.message!,
+      //                 textAlign: TextAlign.left,
+      //                 speed: const Duration(milliseconds: 30),
+      //                 curve: Curves.easeInOutSine,
+      //               ),
+      //             ],
+      //           ),
+      //           const SizedBox(height: 32),
+      //           TextField(
+      //             onChanged: (value) => response = value,
+      //             minLines: 1,
+      //             maxLines: 5,
+      //             decoration: InputDecoration(
+      //               focusColor: Color(0xFF8ddce3),
+      //               border: OutlineInputBorder(
+      //                 borderRadius: BorderRadius.circular(15),
+      //                 gapPadding: 1,
+      //               ),
+      //               hintText: 'Type your response here',
+      //               contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      //             ),
+      //           ),
+      //           const SizedBox(height: 8), // Add spacing between response field and buttons
+      //           Row(
+      //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //             children: [
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                 backgroundColor: Color(0xFF3C3C3C),
+      //               ),
+      //               onPressed: () {
+      //                 Navigator.pop(context);
+      //               },
+      //               child: const Text('Close', style: TextStyle(color: Color(0xFF8ddce3))),
+      //             ),
+      //             ElevatedButton(
+      //               style: ElevatedButton.styleFrom(
+      //                 backgroundColor: Color(0xFF3C3C3C),
+      //               ),
+      //               onPressed: () {
+      //                 sendResponse(response!);
+      //                 Navigator.pop(context);
+      //               },
+      //               child: const Text('Send Response', style: TextStyle(color: Color(0xFF8ddce3))),
+      //             ),
+      //           ],)
+      //         ],
+      //       ),
+      //     ),
+      //     actions: [
+      //     ],
+      //   );
 
-        },
-      );
-      } 
+      //   },
+      // );
+      // } 
     }
     
   }
