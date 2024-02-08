@@ -15,6 +15,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
 
   final _formKey = GlobalKey<FormState>();
+  var letters = [];
   Letter newLetter = Letter();
   
   
@@ -100,6 +101,9 @@ class _AdminPageState extends State<AdminPage> {
                     'message': newLetter.message,
                     'read': false,
                   });
+                  setState(() {
+                    
+                  });
                   print('Letter sent');
                   Navigator.pop(context);
                 }
@@ -121,15 +125,7 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Page'),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 20),
-          ],
-        ),
+        title: const Text('Admin Page'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -137,6 +133,77 @@ class _AdminPageState extends State<AdminPage> {
         },
         backgroundColor: const Color(0xFF3C3C3C),
         child: const Icon(Icons.add, color: Color(0xFF8ddce3)),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            const Text('Letter status', style: TextStyle(fontSize: 24)),
+            SizedBox(
+              height: 350,
+              child: StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
+                stream: FirebaseFirestore.instance.
+                        collection('letters').
+                        snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot){
+                  if(snapshot.hasData){
+                    final letters = snapshot.data!.docs;
+                    return ListView.builder(
+                      itemCount: letters.length,
+                      itemBuilder: (context,index){
+                        final letter = letters[index].data();
+                        final recipient = letter['recipient'] as String?;
+                        final read = letter['read'] as bool?;
+              
+                        return ListTile(
+                          title: Text(recipient!),
+                          subtitle: read! ? const Text('Read') : const Text('Unread'),
+                        );
+                      },
+                    ); 
+                  }
+                  else{
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
+            const Divider(
+              color: Colors.black,
+              thickness: 0.5,
+            ),
+            const SizedBox(height: 20),
+            const Text('Responses', style: TextStyle(fontSize: 24)),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot<Map<String,dynamic>>>(
+                stream: FirebaseFirestore.instance.
+                        collection('responses').
+                        snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot){
+                  if(snapshot.hasData){
+                    final responses = snapshot.data!.docs;
+                    return ListView.builder(
+                      itemCount: responses.length,
+                      itemBuilder: (context,index){
+                        final response = responses[index].data();
+                        final recipient = response['sender'] as String?;
+                        final message = response['response'] as String?;
+              
+                        return ListTile(
+                          title: Text(recipient!),
+                          subtitle: Text(message!),
+                        );
+                      },
+                    ); 
+                  }
+                  else{
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
