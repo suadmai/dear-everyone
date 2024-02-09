@@ -28,6 +28,7 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
     _scrollController = ScrollController();
     _animationController = AnimationController(vsync: this);
     //update the letter's isRead status to true
+    //_scrollToEnd();
     FirebaseFirestore.instance
     .collection('letters')
     .doc(widget.letter.code)
