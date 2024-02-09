@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:everyone/adminPage.dart';
+import 'package:everyone/authenticate.dart';
 import 'package:everyone/letterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -60,27 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     fetchLetters();
-    letters.add(myLetter);
-    letters.add(myLetter2);
     super.initState();
   }
-
-  //example letter
-  Letter myLetter = Letter(
-    code: '123456',
-    recipient: 'Farhanah Huda',
-    message: """I'm sorry things didn't work out between us.
-    \nI hope you find someone who can make you happy.
-    \nI wish you all the best. Goodbye.""",
-    isRead: false, 
-    );
-  
-  Letter myLetter2 = Letter(
-    code: '789101',
-    recipient: 'Aireen',
-    message: 'I hope you read this letter',
-    isRead: false, 
-    );
 
   void findLetter(String? code){
     print('Finding letter');
@@ -133,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const AdminPage(),
+          builder: (context) => const Authenticate(),
         ),
       );
     }
