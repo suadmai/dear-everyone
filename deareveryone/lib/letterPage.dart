@@ -294,7 +294,7 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                             minLines: 1,
                             maxLines: 10,
                             decoration: const InputDecoration(
-                              hintText: 'Type your response',
+                              hintText: 'Type your response here',
                               //no text field line
                               border: InputBorder.none,
                             ),
