@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -20,6 +22,7 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
   final _responseController = TextEditingController();
   ScrollController? _scrollController;
   AnimationController? _animationController;
+  late Timer _timer;
   
 
   @override
@@ -29,6 +32,10 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
     _animationController = AnimationController(vsync: this);
     //update the letter's isRead status to true
     //_scrollToEnd();
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    _scrollToEnd(); // Call scrollToEnd method every second
+    });
+    
     FirebaseFirestore.instance
     .collection('letters')
     .doc(widget.letter.code)
@@ -135,7 +142,7 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                 ),
               ),
               child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),//if depressPage is true, the letter will be displayed in a depressed state
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),//if depressPage is true, the letter will be displayed in a depressed state
                   child: SingleChildScrollView(
                     controller: _scrollController,
                     child: Column(
@@ -165,13 +172,15 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                                     textAlign: TextAlign.start,
                                     textStyle: const TextStyle(
                                       height: 2,
-                                      fontSize: 16,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ]
                                 ),
                               ),
                             ),
+                            //sized box as tall as the floating action button
+                            const SizedBox(height: 100),
                           ],
                     
                         ),
