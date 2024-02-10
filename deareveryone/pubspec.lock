@@ -144,6 +144,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  glass:
+    dependency: "direct main"
+    description:
+      name: glass
+      sha256: "5b321fcc05155159cd6ea3b8dd6f298602f7dac8bf36c2a4a680a772d4c1cf24"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2+1"
   js:
     dependency: transitive
     description:
@@ -160,14 +168,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  marquee_text:
-    dependency: "direct main"
-    description:
-      name: marquee_text
-      sha256: "2f667fc3870af19b58ad5204e15d5f1627807585ed049800e48133601905554e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.0+1"
   matcher:
     dependency: transitive
     description:

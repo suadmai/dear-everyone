@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:glass/glass.dart';
 import 'main.dart';
 
 class LetterPage extends StatefulWidget {
@@ -84,39 +85,48 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: 
       AnimatedOpacity(
         opacity: depressPage ? 0 : 1,
         duration: const Duration(milliseconds: 200),
         //visible: !depressPage,
         child: 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3C3C3C),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close', style: TextStyle(color: Color(0xFF8ddce3))),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3C3C3C),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close', style: TextStyle(color: Color(0xFF8ddce3))),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF3C3C3C),
+                  ),
+                  onPressed: () {
+                    depressPage = !depressPage;
+                    setPadding();
+                    setState(() {
+                    });
+                  },
+                  child: const Text('Send response', style: TextStyle(color: Color(0xFF8ddce3))),
+                ),
+              ],
             ),
-            const SizedBox(width: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF3C3C3C),
-              ),
-              onPressed: () {
-                depressPage = !depressPage;
-                setPadding();
-                setState(() {
-                });
-              },
-              child: const Text('Send response', style: TextStyle(color: Color(0xFF8ddce3))),
-            ),
-          ],
+          ),
+        ).asGlass(
+          clipBorderRadius: const BorderRadius.all(Radius.circular(15)),
+          blurX: 5,
+          blurY: 5,
         ),
       ),
       body: Stack(
@@ -142,13 +152,13 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                 ),
               ),
               child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),//if depressPage is true, the letter will be displayed in a depressed state
+                  padding: const EdgeInsets.symmetric(horizontal: 30),//if depressPage is true, the letter will be displayed in a depressed state
                   child: SingleChildScrollView(
                     controller: _scrollController,
                     child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 70),
                             Text(
                               '@ ${widget.letter.recipient}',
                               style: const TextStyle(
@@ -160,29 +170,31 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                             Container(
                               alignment: Alignment.centerLeft,
                               child: SingleChildScrollView(
+                                //controller: _scrollController,
                                 child: AnimatedTextKit(
                                   onFinished: (){
-                                    //scroll to the end of the text
-                                    _scrollToEnd();
+                                    setState(() {
+                                      //stop the timer
+                                      _timer.cancel();
+                                    });
                                   },
                                   isRepeatingAnimation: false,
                                   animatedTexts: [
                                   TyperAnimatedText(widget.letter.message!,
-                                    speed: const Duration(milliseconds: 30),
+                                    speed: const Duration(milliseconds: 20),
                                     textAlign: TextAlign.start,
                                     textStyle: const TextStyle(
                                       height: 2,
-                                      fontSize: 20,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ]
                                 ),
                               ),
                             ),
-                            //sized box as tall as the floating action button
                             const SizedBox(height: 100),
                           ],
-                    
+
                         ),
                   ),
               ),
@@ -196,7 +208,6 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
             right: 0,
             bottom: 0,
             child: Container(
-              
               decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -294,7 +305,7 @@ class _LetterPageState extends State<LetterPage> with SingleTickerProviderStateM
                     ),
                   ),
               ),
-            ),
+            )
           ),
         ],
       )

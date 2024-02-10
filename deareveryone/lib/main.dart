@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:everyone/adminPage.dart';
 import 'package:everyone/authenticate.dart';
 import 'package:everyone/letterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -142,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const SizedBox(height: 20,),
                const Text(
-                'Please enter your 6-digit code to view your letter.',
+                'Please enter your 6-digit code to view your message.',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20,),
@@ -189,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     }
                   },
-                  child: const Text('View Letter', style: TextStyle(color: Color(0xFF8ddce3)),),
+                  child: const Text('Open Message', style: TextStyle(color: Color(0xFF8ddce3)),),
                 ),
               ],
               )
