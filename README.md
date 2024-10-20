@@ -1,5 +1,5 @@
 
-<h1>**@everyone** is a Progressive Web App I developed during my degree as a personal farewell gesture to my close friends.</h1>h1>
+<h1><bold>@everyone is a Progressive Web App I developed during my degree as a personal farewell gesture to my close friends.</bold></h1>
 
 Built using **Flutter** and backed by **Firebase** for hosting and data management, the app allows me to share my thoughts and memories with those who were part of my university journey. 
 
